@@ -15,10 +15,6 @@ public static class ChatConstants
     public const int MaxMessageLength = 1000;
     public const int MaxMessagesInHistory = 100;
     
-    // Time Constants
-    public const int MessageRetentionDays = 30;
-    public const int ConnectionTimeoutSeconds = 30;
-    
     // System Messages
     public const string SystemUserName = "System";
     public const string UserJoinedMessageTemplate = "{0} joined the chat";

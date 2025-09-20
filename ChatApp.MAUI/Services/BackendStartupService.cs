@@ -1,5 +1,8 @@
 #if WINDOWS
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using ChatApp.Shared.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace ChatApp.MAUI.Services;
 
@@ -11,6 +14,15 @@ public interface IBackendStartupService
 public class BackendStartupService : IBackendStartupService
 {
     private static bool _started;
+    private readonly ILogger<BackendStartupService> _logger;
+    private readonly ChatClientOptions _options;
+
+    public BackendStartupService(ILogger<BackendStartupService> logger, IOptions<ChatClientOptions> options)
+    {
+        _logger = logger;
+        _options = options.Value;
+    }
+
     public async Task EnsureBackendRunningAsync()
     {
         if (_started) return;
@@ -29,10 +41,11 @@ public class BackendStartupService : IBackendStartupService
                 RedirectStandardError = false
             };
             Process.Start(psi);
+            _logger.LogInformation("Started backend AppHost. Client targeting {BaseUrl}", _options.BaseUrl);
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Failed to start backend: {ex.Message}");
+            _logger.LogError(ex, "Failed to start backend");
         }
         await Task.CompletedTask;
     }
