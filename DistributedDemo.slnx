@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DistributedDemo.AppHost/DistributedDemo.AppHost.csproj" />
+  <Project Path="DistributedDemo.ServiceDefaults/DistributedDemo.ServiceDefaults.csproj" />
+</Solution>
