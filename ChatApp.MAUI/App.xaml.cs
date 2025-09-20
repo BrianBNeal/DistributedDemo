@@ -2,13 +2,16 @@
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
-	}
-
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		return new Window(new AppShell());
-	}
+    public App(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
+        MainPage = new AppShell();
+#if WINDOWS
+        // Fire and forget backend startup service if registered
+        if (serviceProvider.GetService(typeof(ChatApp.MAUI.Services.IBackendStartupService)) is ChatApp.MAUI.Services.IBackendStartupService starter)
+        {
+            _ = starter.EnsureBackendRunningAsync();
+        }
+#endif
+    }
 }

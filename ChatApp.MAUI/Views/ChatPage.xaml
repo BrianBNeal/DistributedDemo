@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ChatApp.MAUI.Views.ChatPage"
+             Title="Chat">
+    <Grid RowDefinitions="Auto,* ,Auto" ColumnDefinitions="*">
+        <HorizontalStackLayout Padding="12" Spacing="12">
+            <Label Text="Status:" />
+            <Label Text="{Binding ConnectionStatus}" FontAttributes="Bold" />
+            <Button Text="Disconnect" Command="{Binding DisconnectCommand}" HorizontalOptions="EndAndExpand" />
+        </HorizontalStackLayout>
+        <Grid Grid.Row="1" ColumnDefinitions="3* , *" RowDefinitions="*">
+            <CollectionView Grid.Column="0" ItemsSource="{Binding Messages}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Padding="8" Spacing="2">
+                            <Label Text="{Binding UserName}" FontAttributes="Bold" />
+                            <Label Text="{Binding Content}" />
+                            <Label Text="{Binding Timestamp, StringFormat='{}{0:HH:mm:ss}'}" FontSize="10" TextColor="Gray" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <CollectionView Grid.Column="1" ItemsSource="{Binding OnlineUsers}" BackgroundColor="#F5F5F5">
+                <CollectionView.Header>
+                    <Label Text="Online" FontAttributes="Bold" Padding="8" />
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout Padding="4" Spacing="4">
+                            <Label Text="{Binding Name}" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <Grid Grid.Row="2" ColumnDefinitions="* , Auto" Padding="8">
+            <Entry Text="{Binding CurrentMessage}" Placeholder="Type a message" />
+            <Button Grid.Column="1" Text="Send" Command="{Binding SendMessageCommand}" />
+        </Grid>
+    </Grid>
+</ContentPage>
